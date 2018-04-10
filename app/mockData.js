@@ -1,19 +1,19 @@
 const Artists = [
   {
-    name: "Breakbot",
+    name: "NDX AKA",
     background: "https://i.ytimg.com/vi/_PybCKpaw3U/maxresdefault.jpg",
     songs: [
       {
-        title: "Star Tripper",
-        album: "Still Waters",
+        title: "Terminal Giwangan",
+        album: "Terminal Giwangan",
         albumImage: "https://i.ytimg.com/vi/_PybCKpaw3U/maxresdefault.jpg",
-        url: "https://api.soundcloud.com/tracks/254196631/stream?client_id=8a754483a114344c70ab15f20a5035ab",
+        url: "https://api.soundcloud.com/tracks/256890339/stream?client_id=J1ACd6iohHv2vph3DCM14WPE2Z1H9ymM",
       },
       {
-        title: "You Should Know (feat. Ruckazoid)",
-        album: "Still Waters",
+        title: "Lungset",
+        album: "Lungset",
         albumImage: "https://i.ytimg.com/vi/_PybCKpaw3U/maxresdefault.jpg",
-        url: "https://api.soundcloud.com/tracks/254196631/stream?client_id=8a754483a114344c70ab15f20a5035ab",
+        url: "https://api.soundcloud.com/tracks/307325490/stream?client_id=J1ACd6iohHv2vph3DCM14WPE2Z1H9ymM",
       },
       {
         title: "Bedtime Stories Mix",

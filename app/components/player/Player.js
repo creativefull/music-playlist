@@ -14,7 +14,19 @@ import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
+import firebase from 'react-native-firebase'
 
+const admob = require('../../admob.json')
+
+const advert = firebase.admob().interstitial(admob.interstitial_id);
+const AdRequest = firebase.admob.AdRequest;
+const request = new AdRequest();
+request.addKeyword('ndx aka');
+
+advert.loadAd(request.build());
+advert.on('onAdLoaded', () => {
+  console.log('Advert ready to show.');
+});
 
 const window = Dimensions.get('window');
 
@@ -38,6 +50,14 @@ class Player extends Component {
     })
   }
   
+  showAd() {
+    if (advert.isLoaded()) {
+      advert.show()
+    } else {
+      alert('Failed load ads')
+    }
+  }
+
   togglePlay(){
     this.setState({ playing: !this.state.playing });
   }
@@ -62,6 +82,8 @@ class Player extends Component {
         currentTime: 0,
       });
     }
+
+    this.showAd()
   }
 
   goForward(){
@@ -70,6 +92,8 @@ class Player extends Component {
       currentTime: 0,
     });
     this.refs.audio.seek(0);
+
+    setTimeout(this.showAd, 1000)
   }
 
   randomSongIndex(){
@@ -168,7 +192,10 @@ class Player extends Component {
         </View>
         <View style={ styles.headerClose }>
           <TouchableOpacity
-            onPress={() => this.props.navigation.goBack()}>
+            onPress={() => { 
+              this.props.navigation.goBack() 
+              this.showAd()
+            }}>
               <Icon onPress={ () => this.props.navigation.goBack() } name="ios-arrow-down" size={15} color="#fff" />
           </TouchableOpacity>
         </View>

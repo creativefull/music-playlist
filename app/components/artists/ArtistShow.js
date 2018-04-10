@@ -14,18 +14,16 @@ import {
 import Button from 'react-native-button';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
+import firebase from 'react-native-firebase'
+const Banner = firebase.admob.Banner;
+const AdRequest = firebase.admob.AdRequest;
+const request = new AdRequest();
+request.addKeyword('ndx aka').addKeyword('music');
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
 const STICKY_HEADER_HEIGHT = 50;
 const AVATAR_SIZE = 120;
-
-// import { 
-//   AdMobBanner, 
-//   AdMobInterstitial, 
-//   PublisherBanner,
-//   AdMobRewarded
-// } from 'react-native-admob'
 
 class ArtistShow extends Component {
 
@@ -102,15 +100,18 @@ class ArtistShow extends Component {
   }
 
 
-  /*renderAdmob() {
+  renderAdmob() {
     return (
-      <AdMobBanner
-        bannerSize="fullBanner"
-        adUnitID="ca-app-pub-6557676868237532~4191620281"
-        testDeviceID="EMULATOR"
-        didFailToReceiveAdWithError={this.bannerError} />
+        <Banner
+            size={"SMART_BANNER"}
+            request={request.build()}
+            unitId='ca-app-pub-6557676868237532/4355271816'
+            onAdLoaded={() => {
+                console.log('BANNER ADMOB LOADED')
+                {/*alert('ok')*/}
+            }}/>
     )
-  }*/
+  }
 
   render() {
     const { onScroll = () => {} } = this.props;
@@ -125,7 +126,7 @@ class ArtistShow extends Component {
           renderStickyHeader={ this.renderStickyHeader.bind(this) }
           renderForeground={ this.renderForeground.bind(this) }
           renderBackground={ this.renderBackground.bind(this) }>
-          {/*{this.renderAdmob()}*/}
+          {this.renderAdmob()}
           { this.renderSongsList() }
         </ParallaxScrollView>
       </View>
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   songsList: {
     flex: 1,
     backgroundColor: "#000",
-    paddingTop: 5,
+    // paddingTop: 5,
     height: window.height - STICKY_HEADER_HEIGHT,
   },
   song: {
