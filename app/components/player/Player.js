@@ -7,10 +7,10 @@ import {
   StyleSheet,
   Text,
   View,
+  BackHandler,
   TouchableOpacity
 } from 'react-native';
 import Button from 'react-native-button';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from 'react-native-slider';
 import Video from 'react-native-video';
@@ -23,7 +23,6 @@ const AdRequest = firebase.admob.AdRequest;
 const request = new AdRequest();
 request.addKeyword('ndx aka');
 
-advert.loadAd(request.build());
 advert.on('onAdLoaded', () => {
   console.log('Advert ready to show.');
 });
@@ -40,21 +39,24 @@ class Player extends Component {
       sliding: false,
       currentTime: 0,
       songIndex: 0,
+      params : null
     };
   }
 
   componentDidMount() {
-    const {params} = this.props.navigation.state
+    const {params} = this.props
     this.setState({
-      songIndex : params.songIndex
+      songIndex : params.songIndex,
+      params : params
     })
   }
   
   showAd() {
+    // advert.show()
     if (advert.isLoaded()) {
       advert.show()
     } else {
-      alert('Failed load ads')
+      console.log("Failed to Load Ads")
     }
   }
 
@@ -83,7 +85,7 @@ class Player extends Component {
       });
     }
 
-    this.showAd()
+    setTimeout(this.showAd, 1000)
   }
 
   goForward(){
@@ -93,11 +95,23 @@ class Player extends Component {
     });
     this.refs.audio.seek(0);
 
-    setTimeout(this.showAd, 1000)
+    advert.loadAd(request.build());
+    // this.showAd()
+    setTimeout(this.showAd, 3000)
+  }
+
+  setItem(songIndex) {
+    this.setState({
+      songIndex : songIndex
+    })
+
+    advert.loadAd(request.build());
+    setTimeout(this.showAd, 3000)
+    advert.loadAd(request.build());
   }
 
   randomSongIndex(){
-    const {params} = this.props.navigation.state
+    const {params} = this.props
     let maxIndex = params.songs.length - 1;
     return Math.floor(Math.random() * (maxIndex - 0 + 1)) + 0;
   }
@@ -130,9 +144,8 @@ class Player extends Component {
     this.setState({ playing: false });
   }
 
-
   render() {
-    const {params} = this.props.navigation.state
+    const {params} = this.props
 
     let songPlaying = params.songs[this.state.songIndex];
     let songPercentage;
@@ -172,7 +185,7 @@ class Player extends Component {
 
     let image = songPlaying.albumImage ? songPlaying.albumImage : params.artist.background;
     return (
-      <View style={styles.container}>
+      <View style={styles.container}>        
         <Video source={{uri: songPlaying.url }}
             ref="audio"
             volume={ this.state.muted ? 0 : 1.0}
@@ -190,25 +203,8 @@ class Player extends Component {
             { params.artist.name }
           </Text>
         </View>
-        <View style={ styles.headerClose }>
-          <TouchableOpacity
-            onPress={() => { 
-              this.props.navigation.goBack() 
-              this.showAd()
-            }}>
-              <Icon onPress={ () => this.props.navigation.goBack() } name="ios-arrow-down" size={15} color="#fff" />
-          </TouchableOpacity>
-        </View>
-        <Image
-          style={ styles.songImage }
-          source={{uri: image,
-                        width: window.width - 30,
-                        height: 300}}/>
         <Text style={ styles.songTitle }>
-          { songPlaying.title }
-        </Text>
-        <Text style={ styles.albumTitle }>
-          { songPlaying.album }
+          { songPlaying.title.toUpperCase() }
         </Text>
         <View style={ styles.sliderContainer }>
           <Slider
@@ -242,7 +238,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor : 'rgba(0,0,0,0.6)'
   },
   header: {
     marginTop: 17,
@@ -253,6 +249,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 0,
+    zIndex : 999,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
@@ -281,7 +278,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
   },
   back: {
     marginTop: 22,
@@ -356,6 +353,5 @@ function formattedTime( timeInSeconds ){
     return(`${ withLeadingZero( minutes ) }:${ withLeadingZero( seconds.toFixed(0) ) }`);
   }
 }
-
 
 export default Player;

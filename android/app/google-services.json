@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "236228809469",
-    "firebase_url": "https://creativefull-latihan.firebaseio.com",
-    "project_id": "creativefull-latihan",
-    "storage_bucket": "creativefull-latihan.appspot.com"
+    "project_number": "88110132920",
+    "firebase_url": "https://godev-47a11.firebaseio.com",
+    "project_id": "godev-47a11",
+    "storage_bucket": "godev-47a11.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:236228809469:android:fd78caa9d0c93623",
+        "mobilesdk_app_id": "1:88110132920:android:9741afad71cc266d",
         "android_client_info": {
-          "package_name": "com.gcoin"
+          "package_name": "com.rradaband"
         }
       },
       "oauth_client": [
         {
-          "client_id": "236228809469-egvo5mdijr88njqbn47am759bfnb1tsj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gcoin",
-            "certificate_hash": "197ffbb23dd85c203d09147400cc39ff1b834b0e"
-          }
-        },
-        {
-          "client_id": "236228809469-7ov562j68gmlu4vanp134q6ldsc0e6sg.apps.googleusercontent.com",
+          "client_id": "88110132920-urh7lb7n67n86fs052g1ienb45f4umbd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_s-1cjUgU2HZpGc6NzDx7rrGNW3gBPHg"
+          "current_key": "AIzaSyBhMps8O6m1MX-qWZcCasiE6ELbTY4oSFM"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "236228809469-7ov562j68gmlu4vanp134q6ldsc0e6sg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
@@ -52,20 +39,51 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:236228809469:android:568a5c15428406bc",
+        "mobilesdk_app_id": "1:88110132920:android:15639570a1ac51af",
         "android_client_info": {
-          "package_name": "com.musicapp"
+          "package_name": "com.rrsteven"
         }
       },
       "oauth_client": [
         {
-          "client_id": "236228809469-7ov562j68gmlu4vanp134q6ldsc0e6sg.apps.googleusercontent.com",
+          "client_id": "88110132920-urh7lb7n67n86fs052g1ienb45f4umbd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_s-1cjUgU2HZpGc6NzDx7rrGNW3gBPHg"
+          "current_key": "AIzaSyBhMps8O6m1MX-qWZcCasiE6ELbTY4oSFM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88110132920:android:edb9bc31744dc4dc",
+        "android_client_info": {
+          "package_name": "com.rrsteven"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88110132920-urh7lb7n67n86fs052g1ienb45f4umbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhMps8O6m1MX-qWZcCasiE6ELbTY4oSFM"
         }
       ],
       "services": {

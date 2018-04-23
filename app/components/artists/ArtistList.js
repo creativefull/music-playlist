@@ -3,15 +3,13 @@ import React, {Component} from 'react'
 import {
   AppRegistry,
   StyleSheet,
-  Text,
+  Text,                                       
   ListView,
   Image,
   View
 } from 'react-native';
 import Button from 'react-native-button';
-import {Actions} from 'react-native-router-flux';
-import { Artists } from '../../mockData';
-import ArtistListItem from './ArtistListItem';
+import { Artists } from '../../mockData';                         
 
 class ArtistList extends Component {
 

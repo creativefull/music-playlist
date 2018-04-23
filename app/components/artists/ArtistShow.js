@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   Text,
   View,
-  ListView
+  ListView,
+  Alert,
+  BackHandler
 } from 'react-native';
 import Button from 'react-native-button';
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
@@ -19,13 +21,68 @@ const Banner = firebase.admob.Banner;
 const AdRequest = firebase.admob.AdRequest;
 const request = new AdRequest();
 request.addKeyword('ndx aka').addKeyword('music');
+import { Artists } from '../../mockData';
+import Player from '../player/Player';
+const admob = require('../../admob.json')
 
 const window = Dimensions.get('window');
 const PARALLAX_HEADER_HEIGHT = 280;
 const STICKY_HEADER_HEIGHT = 50;
 const AVATAR_SIZE = 120;
 
+import { 
+  StackNavigator,
+  NavigationActions
+} from 'react-navigation'
+
+let backButtonPressFunction = () => false
+
 class ArtistShow extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft : null,
+      header : {
+        visible : false
+      },
+      title : 'NDX AKA'
+    }
+  }
+
+  constructor() {
+    super()
+    this.state = {
+      player : {
+          songIndex: 0,
+          songs: Artists[0].songs,
+          image: Artists[0].background,
+          artist: Artists[0]
+      }      
+    }    
+  }
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      Alert.alert('This App', 'Are you quit ?', [{
+        text : 'Yes',
+        onPress : () =>  {
+          return BackHandler.exitApp()
+        }
+      }, {
+        text : 'No',
+        onPress : () => {
+          return false
+        }
+      }])
+
+      return true
+      // return this.props.navigation.navigate('Home', {artist : Artists[0]})
+    })
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', () => {
+      return true
+    })
+  }
 
   renderStickyHeader() {
     const {artist} = this.props.navigation.state.params
@@ -48,15 +105,6 @@ class ArtistShow extends Component {
         <Text style={ styles.artistName }>
           { artist.name }
         </Text>
-        <TouchableOpacity
-            onPress={ () => this.props.navigation.navigate('Player', { songIndex: 0, songs: artist.songs, image: artist.background, artist: artist }) }>
-          <View style={ styles.playButton }>
-            <Text
-              style={ styles.playButtonText }>
-              PLAY
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -83,15 +131,15 @@ class ArtistShow extends Component {
         style={ styles.songsList }
         renderRow={(song, sectionId, rowId) => (
           <TouchableHighlight
-                onPress={ () => this.props.navigation.navigate('Player', { songIndex: parseInt( rowId ), songs: artist.songs, artist: artist }) }
+                onPress={ () => {
+                  let player = { songIndex: parseInt( rowId ), songs: artist.songs, artist: artist }
+                  this.playerMusic.setItem(parseInt(rowId))
+                }}
                 activeOpacity={ 100 }
                 underlayColor="rgba(246, 41, 118, 0.6)">
             <View key={song} style={ styles.song }>
               <Text style={ styles.songTitle }>
-                { song.title }
-              </Text>
-              <Text style={ styles.albumTitle }>
-                { song.album }
+                { song.title.toUpperCase() }
               </Text>
             </View>
           </TouchableHighlight>
@@ -99,13 +147,12 @@ class ArtistShow extends Component {
     );
   }
 
-
   renderAdmob() {
     return (
         <Banner
             size={"SMART_BANNER"}
             request={request.build()}
-            unitId='ca-app-pub-6557676868237532/4355271816'
+            unitId={admob.banner_id}
             onAdLoaded={() => {
                 console.log('BANNER ADMOB LOADED')
                 {/*alert('ok')*/}
@@ -113,6 +160,31 @@ class ArtistShow extends Component {
     )
   }
 
+  x() {
+    return this.state.player
+  }
+  renderPlayer() {
+    const {player} = this.state
+    return (
+        <View style={{height : 350}}>
+          <Image
+            style={{
+              top : 0,
+              left : 0,
+              right : 0,
+              bottom : 0,
+              flex : 1,
+              position : 'absolute',
+              justifyContent : 'center'
+            }}
+            source={{uri : 'https://i.ytimg.com/vi/_PybCKpaw3U/maxresdefault.jpg' }}/>
+          <Player
+            ref={ref => this.playerMusic = ref}
+            navigation={this.props.navigation}
+            params={this.state.player}/>
+        </View>
+    )
+  }
   render() {
     const { onScroll = () => {} } = this.props;
     const {artist} = this.props.navigation.state.params
@@ -124,7 +196,7 @@ class ArtistShow extends Component {
           stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
           onScroll={onScroll}
           renderStickyHeader={ this.renderStickyHeader.bind(this) }
-          renderForeground={ this.renderForeground.bind(this) }
+          renderForeground={ this.renderPlayer.bind(this) }
           renderBackground={ this.renderBackground.bind(this) }>
           {this.renderAdmob()}
           { this.renderSongsList() }
@@ -220,4 +292,19 @@ const styles = StyleSheet.create({
 
 });
 
-export default ArtistShow;
+export default StackNavigator({
+  Home : {
+    index: 0,
+    screen : ArtistShow
+  },
+  Player : {
+    index : 1,
+    screen : Player
+  }
+}, {
+  headerMode : 'none',
+  initialRouteName : 'Home',
+  navigationOptions : {
+    headerLeft : null
+  }
+})

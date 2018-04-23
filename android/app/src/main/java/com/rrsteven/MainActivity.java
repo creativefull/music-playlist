@@ -1,4 +1,4 @@
-package com.musicapp;
+package com.rrsteven;
 
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;

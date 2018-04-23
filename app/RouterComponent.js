@@ -25,15 +25,21 @@ const styles = StyleSheet.create({
 
 export default StackNavigator({
     Splash : {
-        screen : ArtistList
+        screen : ArtistList,
+        navigationOptions : {
+            headerLeft : null
+        }
     },
     PlayList : {
-        screen : ArtistShow
-    },
-    Player : {
-        screen : Player
+        screen : ArtistShow,
+        navigationOptions : {
+            headerLeft : null
+        }
     }
 }, {
     headerMode : 'none',
-    initialRouteName : 'Splash'
+    initialRouteName : 'PlayList',
+    initialRouteParams : {
+        artist : Artists[0]
+    }
 })
