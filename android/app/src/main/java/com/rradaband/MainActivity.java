@@ -1,4 +1,4 @@
-package com.rrsteven;
+package com.rradaband;
 
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;
